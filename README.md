@@ -60,14 +60,29 @@ python core.py --detect "某文件.pdf" --min-ratio 0.8
 
 ## 打包为 exe（可选，目标电脑无需安装 Python）
 
-```bash
+**方式一（推荐）**：双击项目目录下的 [build_exe.bat](build_exe.bat)，自动安装 PyInstaller 并完成打包。
+
+**方式二（手动）**：
+
+```bat
+:: 1. 先进入本项目目录（app.py 所在目录），否则会报"找不到 app.py"
+cd /d D:\path\to\pdf-watermark-remover
+
+:: 2. 安装 PyInstaller 并打包
 pip install pyinstaller
-pyinstaller --noconfirm --onefile --windowed --name Pdf2WordCleaner ^
+python -m PyInstaller --noconfirm --onefile --windowed --name Pdf2WordCleaner ^
   --collect-all pdf2docx --collect-all pymupdf --collect-all pymupdf_layout app.py
 ```
 
+注意：
+
+- **必须先 `cd` 到项目目录**再执行打包命令，PyInstaller 要在当前目录找到 app.py
+- 若 pip 安装时提示 `pyinstaller.exe ... not on PATH`，或直接运行 `pyinstaller` 报
+  **"不是内部或外部命令"**，这是 PATH 未包含用户 Scripts 目录所致，属正常现象——
+  改用 `python -m PyInstaller` 调用即可，无需改 PATH
+- macOS / Linux 用户请把续行符 `^` 换成 `\`
+
 产物为 `dist\Pdf2WordCleaner.exe`，双击即可运行（首次启动解压稍慢属正常现象）。
-macOS / Linux 用户请把续行符 `^` 换成 `\`。
 
 ## 工作原理
 
